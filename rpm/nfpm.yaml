@@ -1,25 +1,30 @@
+# yaml-language-server: $schema=https://nfpm.goreleaser.com/static/schema.json
 name: "my-first-deployment-experiment"
 arch: "amd64"
 platform: "linux"
 version: "0.0.1"
-release: "0"
+release: "0" # 内容を改変するごとに `release` または `version` を上げる
 depends:
   - podman
-maintainer: "Na-nashi no Gonbe sann <dummy@example.com>"
-description: "My first deployment experiment."
+maintainer: "Na-nashi no Gonbe sann <dummy@example.com>" # パッケージャの名前は必須らしい
+description: "My first deployment experiment." # DeepL で直訳した
 license: "UNLICENSED"
 contents:
-  - src: ./etc/containers/systemd/
+  - # Quadlet ファイル群
+    src: ./etc/containers/systemd/
     dst: /etc/containers/systemd/
-  - src: ./etc/systemd/system/
+  - # systemd 設定ファイル群
+    src: ./etc/systemd/system/
     dst: /etc/systemd/system/
-  - src: ./etc/sysconfig/test-app
+  - # 環境ファイル
+    src: ./etc/sysconfig/test-app
     dst: /etc/sysconfig/test-app
-    type: config
-  - dst: /usr/local/share/test
+    type: config # RPM インストール時に内容を上書きしない
+  - # コンテナイメージ格納ディレクトリ
+    dst: /usr/local/share/test
     type: dir
     file_info:
       mode: 0775
-      group: wheel
+      group: wheel # wheel グループ書き込み可にする
 scripts:
-  postinstall: ./scripts/postinstall.sh
+  postinstall: ./scripts/postinstall.sh # インストール時に `systemctl daemon-reload` を実行する

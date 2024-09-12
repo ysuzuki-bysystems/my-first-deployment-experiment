@@ -1,5 +1,7 @@
 [Image]
+# 指定されたファイルからコンテナイメージを読み込む
 Image=docker-archive:/usr/local/share/test/app.tar.xz
+# 読み込むイメージのタグ (効果ある？)
 ImageTag=test-app:latest
 
 # vim:set ft=systemd:

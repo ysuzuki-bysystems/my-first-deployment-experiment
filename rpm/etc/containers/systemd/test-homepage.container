@@ -3,14 +3,23 @@ Description=My home page.
 
 [Container]
 ContainerName=test-homepage
+# デプロイ先の環境によらない不変的な環境変数を指定
+# 例が良くない ... 外部ホストを指定しているが、現実的には環境変数ファイルに逃がすもの
 Environment=EXTERNAL_ENDPOINT=http://worldtimeapi.org/api/ip
+# コンテナの環境変数が指定されたファイル
+# 環境により異なる変数を指定する
 EnvironmentFile=/etc/sysconfig/test-app
+# Quadlet の .image を指定
+# このファイルにより生成された systemd の `.service` により所定のファイルをイメージとして読み込む
 Image=test-homepage.image
 Network=test.network
-#NetworkAlias=my-image # Not supported yet.
-#PublishPort=80:80
-#Pod=my-pod.pod # Not supported yet.
+#NetworkAlias=my-image # Not supported yet. (Podman 4.9)
+#Pod=my-pod.pod # Not supported yet. (Podman 4.9)
+# NetworkAlias が使えないため、 podman の引数に直接指定する。
 PodmanArgs=--network-alias test-homepage
+
+# 他指定すべきものがあれば指定する (pull のポリシーなど)
+# see https://docs.podman.io/en/v4.9.3/markdown/podman-systemd.unit.5.html
 
 [Install]
 WantedBy=test-app.target

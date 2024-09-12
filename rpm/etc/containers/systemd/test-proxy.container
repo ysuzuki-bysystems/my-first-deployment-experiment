@@ -3,7 +3,10 @@ Description=My home page proxy.
 
 [Container]
 ContainerName=my-home-page-proxy
+# caddy でリバースプロキシするだけ
 Exec=caddy reverse-proxy --from http://:80 --to http://test-homepage --access-log
+# Docker Hub よりイメージを取得
+# FIXME 縛りに違反してる。簡易にしたかったので、やぶった
 Image=docker.io/library/caddy:2.8.4-alpine
 Network=test.network
 PublishPort=80:80
