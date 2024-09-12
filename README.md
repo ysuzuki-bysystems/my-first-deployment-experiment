@@ -20,8 +20,12 @@
 ### 対象サーバー
 
 nginx を仮のアプリケーションとする。
-NOTE: 80 番ポートで HTTP をサービスするものであれば何でも可
-NOTE: ここは縛り解除
+
+> [!NOTE]
+> 80 番ポートで HTTP をサービスするものであれば何でも可
+
+> [!NOTE]
+> ここは縛り解除
 
 1. `sudo dnf install ./my-first-deployment-experiment-*.x86_64.rpm` で RPM をインストール
 2. `podman image pull docker.io/library/nginx:latest` を実行
