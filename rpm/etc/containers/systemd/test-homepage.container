@@ -1,0 +1,18 @@
+[Unit]
+Description=My home page.
+
+[Container]
+ContainerName=test-homepage
+Environment=EXTERNAL_ENDPOINT=http://worldtimeapi.org/api/ip
+EnvironmentFile=/etc/sysconfig/test-app
+Image=test-homepage.image
+Network=test.network
+#NetworkAlias=my-image # Not supported yet.
+#PublishPort=80:80
+#Pod=my-pod.pod # Not supported yet.
+PodmanArgs=--network-alias test-homepage
+
+[Install]
+WantedBy=test-app.target
+
+# vim:set ft=systemd:

@@ -1,0 +1,6 @@
+[Network]
+
+[Install]
+WantedBy=test-app.target
+
+# vim:set ft=systemd:

@@ -1,0 +1,25 @@
+name: "my-first-deployment-experiment"
+arch: "amd64"
+platform: "linux"
+version: "0.0.1"
+release: "0"
+depends:
+  - podman
+maintainer: "Na-nashi no Gonbe sann <dummy@example.com>"
+description: "My first deployment experiment."
+license: "UNLICENSED"
+contents:
+  - src: ./etc/containers/systemd/
+    dst: /etc/containers/systemd/
+  - src: ./etc/systemd/system/
+    dst: /etc/systemd/system/
+  - src: ./etc/sysconfig/test-app
+    dst: /etc/sysconfig/test-app
+    type: config
+  - dst: /usr/local/share/test
+    type: dir
+    file_info:
+      mode: 0775
+      group: wheel
+scripts:
+  postinstall: ./scripts/postinstall.sh

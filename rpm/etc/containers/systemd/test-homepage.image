@@ -1,0 +1,5 @@
+[Image]
+Image=docker-archive:/usr/local/share/test/app.tar.xz
+ImageTag=test-app:latest
+
+# vim:set ft=systemd:

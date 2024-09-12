@@ -1,0 +1,14 @@
+[Unit]
+Description=My home page proxy.
+
+[Container]
+ContainerName=my-home-page-proxy
+Exec=caddy reverse-proxy --from http://:80 --to http://test-homepage --access-log
+Image=docker.io/library/caddy:2.8.4-alpine
+Network=test.network
+PublishPort=80:80
+
+[Install]
+WantedBy=test-app.target
+
+# vim:set ft=systemd:
