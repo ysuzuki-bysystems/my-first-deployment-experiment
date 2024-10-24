@@ -1,17 +1,25 @@
 [Unit]
 Description=My home page proxy.
+#Wants=test-image@test-proxy.service
+Requires=test-network.service
+#After=test-network.service test-image@test-proxy.service
+After=test-network.service
+#PropagatesStopTo=test-image@test-proxy.service
+AssertPathExists=/usr/local/share/test/test-proxy.tar.xz
+
+[Service]
+ExecStartPre=/usr/local/bin/podman-load-tag /usr/local/share/test/test-proxy.tar.xz localhost/test-proxy
 
 [Container]
-ContainerName=my-home-page-proxy
+ContainerName=test-proxy
 # caddy でリバースプロキシするだけ
-Exec=caddy reverse-proxy --from http://:80 --to http://test-homepage --access-log
-# Docker Hub よりイメージを取得
-# FIXME 縛りに違反してる。簡易にしたかったので、やぶった
-Image=docker.io/library/caddy:2.8.4-alpine
-Network=test.network
+Exec=caddy reverse-proxy --from http://:80 --to http://test-app --access-log
+Image=localhost/test-proxy
+Network=test-network
 PublishPort=80:80
+LogDriver=journald
 
 [Install]
-WantedBy=test-app.target
+WantedBy=test.target
 
 # vim:set ft=systemd:

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+archive="$1"
+tag="$2"
+
+usage() {
+    cat >&2 << EOF
+usage: $0 [FILE] [TAG]
+EOF
+    exit -1
+}
+
+[[ -n "$archive" && -n "$tag" ]] || {
+    usage
+}
+
+loaded="$(/usr/bin/podman image load -i "$archive" | /bin/sed -e's/^Loaded image: //')"
+[[ -n "$loaded" ]] || {
+    echo 'Failed to load image.' >&2
+    exit -1
+}
+/usr/bin/podman tag "$loaded" "$tag"

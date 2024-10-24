@@ -1,2 +1,3 @@
-bin/
-dist/
+/bin/
+/dist/
+/usr/local/share/test/test-proxy.tar.xz

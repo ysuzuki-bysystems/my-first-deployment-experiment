@@ -1,0 +1,11 @@
+[Unit]
+Description=Network for test apps.
+
+[Service]
+ExecStart=/usr/bin/podman network create --ignore test-network
+Type=oneshot
+RemainAfterExit=yes
+SyslogIdentifier=%N
+
+[Install]
+WantedBy=test-app.target
