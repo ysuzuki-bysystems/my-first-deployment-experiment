@@ -1,13 +1,14 @@
 [Unit]
 Description=My home page.
-#Wants=test-image@test-app.service
+# Podman ネットワークが作成されていること
 Requires=test-network.service
-#After=test-network.service test-image@test-app.service
+# Podman ネットワーク作成後に起動
 After=test-network.service
-#PropagatesStopTo=test-image@test-app.service
+# イメージが存在しない場合、起動できない
 AssertPathExists=/usr/local/share/test/test-app.tar.xz
 
 [Service]
+# 起動前にイメージを読み込みタグを付与
 ExecStartPre=/usr/local/bin/podman-load-tag /usr/local/share/test/test-app.tar.xz localhost/test-app
 
 [Container]
@@ -15,6 +16,7 @@ ContainerName=test-app
 # コンテナの環境変数が指定されたファイル
 # 環境により異なる変数を指定する
 EnvironmentFile=/etc/sysconfig/test-app
+# ExecStartPre で読み込んだイメージをもとに起動
 Image=localhost/test-app
 Network=test-network
 #NetworkAlias=my-image # Not supported yet. (Podman 4.9)

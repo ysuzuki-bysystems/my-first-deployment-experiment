@@ -1,6 +1,8 @@
 // vim: set ft=javascript:
 
 polkit.addRule(function(action, subject) {
+  // adm グループのユーザに対して systemctl で特定のユニットの操作を許可する
+
   if (action.id !== "org.freedesktop.systemd1.manage-units") {
     return;
   }
