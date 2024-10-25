@@ -12,22 +12,22 @@ license: "UNLICENSED"
 contents:
   - # Global user profile
     src: ./etc/profile.d/
-    dst: /etc/profile.d/
+    dst: /etc/profile.d
   - # Polkit
     src: ./etc/polkit-1/rules.d/
-    dst: /etc/polkit-1/rules.d/
+    dst: /etc/polkit-1/rules.d
   - # Quadlet ファイル群
     src: ./etc/containers/systemd/
-    dst: /etc/containers/systemd/
+    dst: /etc/containers/systemd
   - # systemd 設定ファイル群
     src: ./etc/systemd/system/
-    dst: /etc/systemd/system/
-  - # podman.service の上書き
-    dst: /etc/systemd/system/podman.socket.d/
+    dst: /etc/systemd/system
+  - # アンインストール時に除去されるよう、ディレクトリを明示的に追加
+    dst: /etc/systemd/system/podman.socket.d
     type: dir
-  -
-    src: ./etc/systemd/system/podman.socket.d/
-    dst: /etc/systemd/system/podman.socket.d/
+  - # アンインストール時に除去されるよう、ディレクトリを明示的に追加
+    dst: /etc/systemd/system/cockpit.socket.d
+    type: dir
   - # 環境ファイル
     src: ./etc/sysconfig/test-app
     dst: /etc/sysconfig/test-app
@@ -37,7 +37,7 @@ contents:
       group: adm
   - # bin
     src: ./usr/local/bin/
-    dst: /usr/local/bin/
+    dst: /usr/local/bin
     file_info:
       mode: 0775
   - # コンテナイメージ格納ディレクトリ
