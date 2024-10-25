@@ -1,0 +1,22 @@
+// vim: set ft=javascript:
+
+polkit.addRule(function(action, subject) {
+  // adm グループのユーザに対して systemctl で特定のユニットの操作を許可する
+
+  if (action.id !== "org.freedesktop.systemd1.manage-units") {
+    return;
+  }
+
+  // duktape (Polkit の JS エンジン) は es5 のサポートがあやしいので、ES3 風に書く方が無難
+  // https://wiki.duktape.org/postes5features
+  var unit = action.lookup("unit");
+  if (!unit.startsWith("test-") && unit !== "test.target") {
+    return;
+  }
+
+  if (!subject.isInGroup("adm")) {
+    return;
+  }
+
+  return polkit.Result.YES;
+});

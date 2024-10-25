@@ -10,21 +10,45 @@ maintainer: "Na-nashi no Gonbe sann <dummy@example.com>" # パッケージャの
 description: "My first deployment experiment." # DeepL で直訳した
 license: "UNLICENSED"
 contents:
+  - # Global user profile
+    src: ./etc/profile.d/
+    dst: /etc/profile.d
+  - # Polkit
+    src: ./etc/polkit-1/rules.d/
+    dst: /etc/polkit-1/rules.d
   - # Quadlet ファイル群
     src: ./etc/containers/systemd/
-    dst: /etc/containers/systemd/
+    dst: /etc/containers/systemd
   - # systemd 設定ファイル群
     src: ./etc/systemd/system/
-    dst: /etc/systemd/system/
+    dst: /etc/systemd/system
+  - # アンインストール時に除去されるよう、ディレクトリを明示的に追加
+    dst: /etc/systemd/system/podman.socket.d
+    type: dir
+  - # アンインストール時に除去されるよう、ディレクトリを明示的に追加
+    dst: /etc/systemd/system/cockpit.socket.d
+    type: dir
   - # 環境ファイル
     src: ./etc/sysconfig/test-app
     dst: /etc/sysconfig/test-app
     type: config # RPM インストール時に内容を上書きしない
+    file_info:
+      mode: 0664
+      group: adm
+  - # bin
+    src: ./usr/local/bin/
+    dst: /usr/local/bin
+    file_info:
+      mode: 0775
   - # コンテナイメージ格納ディレクトリ
     dst: /usr/local/share/test
     type: dir
     file_info:
       mode: 0775
-      group: wheel # wheel グループ書き込み可にする
+      group: adm # adm グループ書き込み可にする
+  - # 手順を簡易にするため、 test-proxy (Caddy) を RPM に含めてしまう。実際は test-app と同様にコピーしてデプロイする。
+    src: ./usr/local/share/test/test-proxy.tar.xz
+    dst: /usr/local/share/test/test-proxy.tar.xz
 scripts:
   postinstall: ./scripts/postinstall.sh # インストール時に `systemctl daemon-reload` を実行する
+  preremove: ./scripts/preremove.sh
